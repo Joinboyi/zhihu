@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
+<struts>
+	<constant name="struts.devMode" value="true" />
+	<package name="s2" extends="struts-default">
+		<interceptors>
+			<interceptor name="LoginInterceptor" class="cn.zspt.zh.util.LoginInterceptor" />
+			<interceptor-stack name="MyStack">
+				<interceptor-ref name="LoginInterceptor"></interceptor-ref>
+				<interceptor-ref name="defaultStack"></interceptor-ref>
+			</interceptor-stack>
+		</interceptors>
+
+		<default-interceptor-ref name="MyStack" />
+		
+		<global-results>
+		<result name="login">/WEB-INF/content/login.jsp</result>
+		</global-results>		
+		
+			
+		<action name="loginsAction" class="cn.zspt.zh.action.LoginAction">
+			<result  type="redirect">indexAction.action</result>
+			<result type="redirect" name="back">${url}</result>
+		</action>	
+		<action name="registerAction" class="cn.zspt.zh.action.RegisterAction">
+			<result type="redirect">loginsAction.action</result>
+		</action>
+		
+	    <action name="indexAction" class="cn.zspt.zh.action.IndexAction">
+			<result>/WEB-INF/content/zh_index.jsp</result>
+		</action>	
+		
+	    <action name="userindexAction" class="cn.zspt.zh.action.UserIndexAction">
+			<result>/WEB-INF/content/zh_user_index.jsp</result>
+		</action>	
+		
+		<action name="logoutAction" class="cn.zspt.zh.action.LogoutAction">
+			<result >/WEB-INF/content/login.jsp</result>	
+		</action>
+		
+		<action name="topicDetail" class="cn.zspt.zh.action.TopicDetailAction">
+			<result>/WEB-INF/content/topic_detail.jsp</result>
+		</action>
+		
+	    <action name="topicReply" class="cn.zspt.zh.action.TopicReplyAction">
+			<result type="redirect">topicDetail.action?id=${Topic_id}</result>
+		</action>
+		
+		<action name="topicDelete" class="cn.zspt.zh.action.TopicDeleteAction">
+			<result type="redirect">userindexAction</result>
+		</action>
+		
+		<action name="topicWrite" class="cn.zspt.zh.action.TopicWriteAction">
+			<result type="redirect">indexAction.action</result>
+		</action>
+		
+		<action name="UserHeadImageUpdate" class="cn.zspt.zh.action.UserHeadImageUpdateAction">
+		<param name="savePath">/user_head_images</param>
+			<result type="redirect">userindexAction.action</result>
+		</action>
+		
+		<action name="*">
+			<result>/WEB-INF/content/{1}.jsp</result>
+		</action>
+		
+	</package>
+	
+     <package name="json3" extends="json-default">
+		<action name="LikeAction" class="cn.zspt.zh.action.AddLikeAction">
+		<result type="json"></result>		  
+		</action>
+		
+		<action name="findSection" class="cn.zspt.zh.action.FindSectionAction">
+		<result type="json"><param name="root">result</param></result>		  
+		</action>
+		
+		<action name="commentView" class="cn.zspt.zh.action.CommentViewAction">
+			<result type="json">
+				<param name="root">result<!-- result是action中设置的变量名，也是页面需要返回的数据，该变量必须有setter和getter方法 --></param>
+			</result>  
+		</action>
+		
+		<action name="commentContent" class="cn.zspt.zh.action.CommentContentAction">
+			<result type="json">
+				<param name="root">result</param>
+			</result>		  
+		</action>
+		
+		<action name="ImgUpload" class="cn.zspt.zh.action.ImgUploadAction">
+			<result type="json">
+				<param name="root"></param>
+			</result>
+		</action>
+		
+	</package>
+
+</struts>    

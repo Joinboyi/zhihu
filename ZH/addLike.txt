@@ -1,0 +1,18 @@
+function Addlike(id){    
+	$.getJSON("LikeAction?reply_id="+id,function(json){ 
+	       alert(333);
+		   alert(json.reply_id);
+	}); 
+
+	var like_num = $("#like_size"+id).html();//获取当前赞值
+	like_num++;//赞值+1
+	
+	$("#like_state"+id).html("已赞");
+	$("#"+id).addClass("disabled");
+	
+	$("#like_size"+id).html(like_num);
+	$("#"+id).removeAttr("onclick"); 
+
+	
+}
+ <button type="button" class="btn btn-default like_btn" id="${reply_id}" onclick="return Addlike(this.id)"><span id="like_state${reply_id}">点赞</span><span id="like_size${reply_id}">${likes.size()}</span></button>
